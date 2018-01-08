@@ -9,11 +9,17 @@
 
     <form action="admin/product/edit/{{$product->id}}" method="POST">
     <input type="hidden" name="_token" value="{{csrf_token()}}">
-        <div class="form-group" name="sltParent">
+        <div class="form-group" >
             <label>Category Parent</label>
-            <select class="form-control">
-                <option value="0">Please Choose Category</option>
-                <?php menuMulti($cate,0, $str = "--|",$product->cate_id); ?>
+            <select class="form-control" name="sltParent">
+                 @foreach($cate as $c)
+                    <option 
+                        @if($product->cate_id == $c->id)
+                            {{"selected"}}
+                        @endif
+                    value="{{$c->id}}">{{$c->name}}</option>
+                @endforeach
+                
             </select>
         </div>
         <div class="form-group">
@@ -44,11 +50,11 @@
         </div>
         <div class="form-group">
             <label>Product Keywords</label>
-            <input class="form-control" name="txtOrder" placeholder="Please Enter Category Keywords" value="{{$product->keywords}}" />
+            <input class="form-control" name="txtKeywords" placeholder="Please Enter Category Keywords" value="{{$product->keywords}}" />
         </div>
         <div class="form-group">
             <label>Product Description</label>
-            <textarea class="form-control" rows="3">{{$product->description}}</textarea>
+            <textarea class="form-control" rows="6" name="txtDescription">{{$product->description}}</textarea>
         </div>
         <button type="submit" class="btn btn-default">Product Edit</button>
         <button type="reset" class="btn btn-default">Reset</button>
